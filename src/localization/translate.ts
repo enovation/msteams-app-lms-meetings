@@ -37,8 +37,12 @@ const supportedLocales = [
 
 export function getUserLocale() {
   let locale = [];
+  const url = new URL(document.location.href);
+  let paramlocale = url.searchParams.get('locale');
 
-  if (navigator.languages) {
+  if (paramlocale) {
+    locale.push(paramlocale);
+  } else if (navigator.languages) {
     locale.push(navigator.languages[0].toLocaleLowerCase());
   } else if (navigator.language) {
     locale.push(navigator.language.toLocaleLowerCase());

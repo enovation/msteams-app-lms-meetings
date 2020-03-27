@@ -23,7 +23,19 @@ export function createMeetingMiddleware(): Middleware {
     }
 
     if (action.type === MEETING_CREATED_EVENT) {
-      store.dispatch(push('/copyMeeting'));
+      const url = new URL(document.location.href);
+      let clientDomain = url.searchParams.get('url');
+      if (clientDomain) {
+          let returnUrl = new URL(clientDomain + '/lib/editor/atto/plugins/teamsmeeting/result.php');
+          let returnUrlSearchParams = returnUrl.searchParams;
+          returnUrlSearchParams.set('link', action.meeting.joinWebUrl);
+          returnUrlSearchParams.set('title', action.meeting.subject);
+          returnUrlSearchParams.set('preview', action.meeting.preview);
+          returnUrl.search = returnUrlSearchParams.toString();
+          document.location.href = returnUrl.toString();
+      } else {
+          store.dispatch(push("/copyMeeting"));
+      }
     }
     next(action);
   };
