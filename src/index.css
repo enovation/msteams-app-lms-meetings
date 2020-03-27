@@ -5,13 +5,13 @@ body {
 }
 
 .microsoftLogo {
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .header {
   display: flex;
   justify-content: space-around;
-  padding: 1rem;
+  padding: 5px;
   border-bottom: 1px solid #cccccc6b;
 }
 
@@ -38,8 +38,11 @@ body {
 }
 
 .container {
-  padding: 1rem 1.5rem 2rem 1.5rem;
-  width: 100%;
+  margin: 1rem;
+}
+
+.ms-Stack.container > :not(:first-child) {
+  margin-top: 5px;
 }
 
 .teamsButton,
@@ -83,8 +86,7 @@ body {
 }
 
 .splashImage {
-  max-width: 650px;
-  margin-top: 4.3rem;
+  max-width: 350px;
 }
 
 .uTextCenter {
@@ -96,7 +98,7 @@ div[class*="ms-TextField-wrapper"]:after {
 }
 
 .signinHeader {
-  margin-bottom: 2.1rem;
+  margin-bottom: 5px;
 }
 
 .signinSubHeader {
