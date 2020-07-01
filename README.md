@@ -73,7 +73,7 @@ You'll need to register an app through the following process:
 
     Click **Save** to save your changes.
 
-7. Under **Manage** on the left-hand pane, click **API permissions** and then **Add a new permission**. Select **Microsoft Graph** and then **Delegated permissions**. Add the `OnlineMeetings.ReadWrite` (Read and create user's online meetings) permission.
+7. Under **Manage** on the left-hand pane, click **API permissions** and then **Add a new permission**. Select **Microsoft Graph** and then **Delegated permissions**. Add the `OnlineMeetings.ReadWrite` (Read and create user's online meetings) and `Calendars.ReadWrite` (Read and create user's calendar events) permissions.
 
 ### Update the configuration
 
@@ -141,7 +141,7 @@ Admins
 - [Manage Teams meeting settings](https://docs.microsoft.com/en-us/microsoftteams/meeting-settings-in-teams)
 
 ### Do meetings that I schedule through this integration appear in my Outlook or Teams calendars?
-No, meetings scheduled through the app do not appear in the scheduler’s Outlook or Teams calendar.
+Yes, meetings scheduled through the app will appear in the scheduler’s Outlook and Teams calendar.
 
 ### When will my Teams meeting expire?
 
