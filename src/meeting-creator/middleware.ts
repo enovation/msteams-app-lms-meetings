@@ -31,6 +31,10 @@ export function createMeetingMiddleware(): Middleware {
           returnUrlSearchParams.set('link', action.meeting.joinWebUrl);
           returnUrlSearchParams.set('title', action.meeting.subject);
           returnUrlSearchParams.set('preview', action.meeting.preview);
+          let msession = url.searchParams.get('msession');
+          if (msession) {
+            returnUrlSearchParams.set('session', msession);
+          }
           returnUrl.search = returnUrlSearchParams.toString();
           document.location.href = returnUrl.toString();
       } else {
