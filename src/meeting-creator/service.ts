@@ -1,5 +1,5 @@
 import { OnlineMeetingInput, OnlineMeeting } from './models';
-import { msalApp } from '../auth/msalApp';
+import { msalApp } from '../auth';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -9,11 +9,17 @@ export function createMeetingService() {
       let token;
       try {
         token = await msalApp.acquireTokenSilent({
-          scopes: ['OnlineMeetings.ReadWrite']
+          scopes: [
+              'OnlineMeetings.ReadWrite',
+              'Calendars.ReadWrite'
+          ]
         });
       } catch (ex) {
         token = await msalApp.acquireTokenPopup({
-          scopes: ['OnlineMeetings.ReadWrite']
+          scopes: [
+              'OnlineMeetings.ReadWrite',
+              'Calendars.ReadWrite'
+          ]
         });
       }
 
@@ -41,6 +47,35 @@ export function createMeetingService() {
         )
       );
 
+      const event_data = {
+          subject: meeting.subject,
+          body: {
+              contentType: "HTML",
+              content: "Join Meeting: <br> " + response.data.joinWebUrl
+          },
+          start: {
+              dateTime: meeting.startDateTime?.toISOString(),
+              timeZone: "UTC"
+          },
+          end: {
+              dateTime: meeting.endDateTime?.toISOString(),
+              timeZone: "UTC"
+          },
+          isOnlineMeeting: true,
+          onlineMeetingProvider: "teamsForBusiness"
+      };
+
+      const calendar_response = await axios.post(
+          'https://graph.microsoft.com/beta/me/calendar/events',
+          event_data,
+          {
+              headers: {
+                  Authorization: `Bearer ${token.accessToken}`, 'Content-type': 'application/json'
+              }
+           }
+        );
+      console.log('Event Creation: ' + calendar_response.status);
+
       const createdMeeting = {
         id: response.data.id,
         creationDateTime: moment(response.data.creationDateTime),
@@ -56,6 +91,7 @@ export function createMeetingService() {
         videoTeleconferenceId: response.data.videoTeleconferenceId,
         preview
       } as OnlineMeeting;
+      console.log('Meeting Creation: ' + response.status);
 
       return createdMeeting;
     }

@@ -21,7 +21,10 @@ export function createAuthMiddleware(): Middleware {
     if (action.type === OPEN_SIGNIN_DIALOG_COMMAND) {
       msalApp
         .loginPopup({
-          scopes: ['OnlineMeetings.ReadWrite']
+          scopes: [
+              'OnlineMeetings.ReadWrite',
+              'Calendars.ReadWrite'
+          ]
         })
         .then(response => {
           console.log('Login succeeded');
