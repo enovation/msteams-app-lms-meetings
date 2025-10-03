@@ -27,14 +27,18 @@ export function createMeetingMiddleware(): Middleware {
       let clientDomain = url.searchParams.get('url');
       let clientEditor = url.searchParams.get('editor');
       if (clientDomain) {
-        let returnUrl = new URL(clientDomain + '/lib/editor/atto/plugins/teamsmeeting/result.php');
-        if (clientEditor === 'tiny') {
-          returnUrl = new URL(clientDomain + '/lib/editor/tiny/plugins/teamsmeeting/result.php');
+        let returnUrl = new URL(clientDomain + '/lib/editor/tiny/plugins/teamsmeeting/result.php');
+        if (clientEditor === 'atto') {
+          returnUrl = new URL(clientDomain + '/lib/editor/atto/plugins/teamsmeeting/result.php');
         }
         let returnUrlSearchParams = returnUrl.searchParams;
         returnUrlSearchParams.set('link', action.meeting.joinWebUrl);
         returnUrlSearchParams.set('title', action.meeting.subject);
         returnUrlSearchParams.set('preview', action.meeting.preview);
+        let courseId = url.searchParams.get('courseid');
+        if (courseId) {
+          returnUrlSearchParams.set('courseid', courseId);
+        }
         let msession = url.searchParams.get('msession');
         if (msession) {
           returnUrlSearchParams.set('session', msession);
