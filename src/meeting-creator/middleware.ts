@@ -3,6 +3,20 @@ import { CREATE_MEETING_COMMAND, MEETING_CREATED_EVENT } from './actions';
 import { createMeetingService } from './service';
 import { push } from 'connected-react-router';
 
+// Graph's joinInformation preview HTML links to this path for the "Meeting options" page.
+const MEETING_OPTIONS_HREF_MARKER = 'meetingoptions';
+
+function extractMeetingOptionsLink(previewHtml: string): string | null {
+  if (!previewHtml) {
+    return null;
+  }
+  const doc = new DOMParser().parseFromString(previewHtml, 'text/html');
+  const optionsLink = Array.from(doc.querySelectorAll('a[href]')).find(link =>
+    link.getAttribute('href')?.toLowerCase().includes(MEETING_OPTIONS_HREF_MARKER)
+  );
+  return optionsLink?.getAttribute('href') ?? null;
+}
+
 export function createMeetingMiddleware(): Middleware {
   const service = createMeetingService();
 
@@ -34,7 +48,16 @@ export function createMeetingMiddleware(): Middleware {
         let returnUrlSearchParams = returnUrl.searchParams;
         returnUrlSearchParams.set('link', action.meeting.joinWebUrl);
         returnUrlSearchParams.set('title', action.meeting.subject);
-        returnUrlSearchParams.set('preview', action.meeting.preview);
+        // Plugins that understand the meeting-options link opt in with previewmode=options;
+        // older, un-upgraded plugins omit it and keep receiving the full preview HTML as before.
+        if (url.searchParams.get('previewmode') === 'options') {
+          const optionsLink = extractMeetingOptionsLink(action.meeting.preview);
+          if (optionsLink) {
+            returnUrlSearchParams.set('options', optionsLink);
+          }
+        } else {
+          returnUrlSearchParams.set('preview', action.meeting.preview);
+        }
         let courseId = url.searchParams.get('courseid');
         if (courseId) {
           returnUrlSearchParams.set('courseid', courseId);
