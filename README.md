@@ -77,8 +77,9 @@ You'll need to register an app through the following process:
 
 ### Update the configuration
 
-Change the following values in the `msalApp.ts` file:
+Copy `src/auth/msalApp.sample.ts` to `src/auth/msalApp.ts` (ignored by git) and change the following values:
 * **clientId** - Set this to the Application (client) ID of the AAD application that you registered
+* **postLogoutRedirectUri** - Set this to the URL you want users redirected to after logout
 
 ## Available Scripts
 

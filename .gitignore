@@ -22,3 +22,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# msal auth config - contains environment-specific client IDs, copy from msalApp.sample.ts
+/src/auth/msalApp.ts
+/src/auth/msalApp.live.ts
+/src/auth/msalApp.uat.ts
+
