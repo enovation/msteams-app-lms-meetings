@@ -44,6 +44,8 @@ export function createMeetingMiddleware(): Middleware {
         let returnUrl = new URL(clientDomain + '/lib/editor/tiny/plugins/teamsmeeting/result.php');
         if (clientEditor === 'atto') {
           returnUrl = new URL(clientDomain + '/lib/editor/atto/plugins/teamsmeeting/result.php');
+        } else if (clientEditor === 'msteams') {
+          returnUrl = new URL(clientDomain + '/mod/msteams/result.php');
         }
         let returnUrlSearchParams = returnUrl.searchParams;
         returnUrlSearchParams.set('link', action.meeting.joinWebUrl);
