@@ -106,10 +106,9 @@ export async function getMessages(): Promise<any>
     return JSON.parse(storedTranslations);
   }
   console.log("Translation not cached, loading...");
-  await loadTranslations();
-
-  // Load the translations into the storedTranslations variable again.
-  storedTranslations = sessionStorage.getItem(translationsStorageKey);
+  const translatedStrings = await loadTranslations();
+  storedTranslations = JSON.stringify(translatedStrings.default);
+  sessionStorage.setItem(translationsStorageKey, storedTranslations);
 
   if (!storedTranslations)
   {
