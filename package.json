@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "./",
   "dependencies": {
+    "@azure/msal-browser": "2.39.0",
     "@types/react-intl": "3.0.0",
     "@uifabric/fluent-theme": "7.1.35",
     "axios": "0.19.2",
@@ -11,7 +12,6 @@
     "lodash": "4.17.13",
     "moment": "2.24.0",
     "moment-timezone": "0.5.28",
-    "msal": "1.2.1",
     "office-ui-fabric-react": "7.103.0",
     "react": "16.13.0",
     "react-dom": "16.13.0",
@@ -21,7 +21,7 @@
     "react-router-dom": "5.1.2",
     "react-scripts": "3.4.0",
     "redux": "4.0.5",
-    "typescript": "~3.7.2"
+    "typescript": "~3.9.10"
   },
   "scripts": {
     "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts start",

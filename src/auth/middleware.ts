@@ -1,5 +1,5 @@
 import { Middleware } from 'redux';
-import { msalApp } from './msalApp';
+import { msalApp, msalAppReady } from './msalApp';
 import {
   CHECK_FOR_SIGNEDIN_USER_COMMAND,
   OPEN_SIGNIN_DIALOG_COMMAND,
@@ -13,18 +13,21 @@ import { replace } from 'connected-react-router';
 export function createAuthMiddleware(): Middleware {
   return store => next => action => {
     if (action.type === CHECK_FOR_SIGNEDIN_USER_COMMAND) {
-      if (!msalApp.getAccount()) {
+      if (msalApp.getAllAccounts().length === 0) {
         store.dispatch(replace('/signin'));
       }
     }
 
     if (action.type === OPEN_SIGNIN_DIALOG_COMMAND) {
-      msalApp
-        .loginPopup({
-          scopes: ['OnlineMeetings.ReadWrite']
-        })
+      msalAppReady
+        .then(() =>
+          msalApp.loginPopup({
+            scopes: ['OnlineMeetings.ReadWrite']
+          })
+        )
         .then(response => {
           console.log('Login succeeded');
+          msalApp.setActiveAccount(response.account);
           store.dispatch({
             type: SIGNIN_COMPLETE_EVENT,
             idToken: response.idToken
@@ -40,11 +43,12 @@ export function createAuthMiddleware(): Middleware {
     }
 
     if (action.type === SIGNOUT_COMMAND) {
-      msalApp.logout();
-      store.dispatch({
-        type: SIGNOUT_COMPLETE_EVENT
+      msalApp.logoutPopup().then(() => {
+        store.dispatch({
+          type: SIGNOUT_COMPLETE_EVENT
+        });
+        console.log('logged out?');
       });
-      console.log('logged out?');
     }
 
     next(action);

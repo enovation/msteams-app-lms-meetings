@@ -1,29 +1,14 @@
-//shamelessly stolen from: https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/samples/react-sample-app/src/auth-utils.js
-import { UserAgentApplication } from 'msal';
+import { PublicClientApplication } from '@azure/msal-browser';
 
-function isIE() {
-  const ua = window.navigator.userAgent;
-  const msie = ua.indexOf('MSIE ') > -1;
-  const msie11 = ua.indexOf('Trident/') > -1;
-
-  // If you as a developer are testing using Edge InPrivate mode, please add "isEdge" to the if check
-  // const isEdge = ua.indexOf("Edge/") > -1;
-  return msie || msie11;
-}
-
-export const msalApp = new UserAgentApplication({
+export const msalApp = new PublicClientApplication({
   auth: {
     clientId: 'YOUR_AAD_APP_CLIENT_ID',
     authority: 'https://login.microsoftonline.com/common',
-    validateAuthority: true,
-    postLogoutRedirectUri: 'YOUR_POST_LOGOUT_REDIRECT_URI',
-    navigateToLoginRequestUrl: false
+    postLogoutRedirectUri: 'YOUR_POST_LOGOUT_REDIRECT_URI'
   },
   cache: {
-    cacheLocation: 'sessionStorage',
-    storeAuthStateInCookie: isIE()
-  },
-  system: {
-    navigateFrameWait: 0
+    cacheLocation: 'sessionStorage'
   }
 });
+
+export const msalAppReady = msalApp.initialize();
