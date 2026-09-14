@@ -63,6 +63,7 @@ export function getUserLocale() {
 }
 
 const userLocale = getUserLocale();
+const translationsStorageKey = `translatedStrings_${userLocale}`;
 
 async function loadTranslations() {
   let translations;
@@ -78,12 +79,12 @@ async function loadTranslations() {
 
 loadTranslations().then((translatedStrings: any) => {
   sessionStorage.setItem(
-    'translatedStrings',
+    translationsStorageKey,
     JSON.stringify(translatedStrings.default)
   );
 });
 
-let storedTranslations = sessionStorage.getItem('translatedStrings');
+let storedTranslations = sessionStorage.getItem(translationsStorageKey);
 
 export let messages: any = storedTranslations
   ? JSON.parse(storedTranslations)
@@ -108,7 +109,7 @@ export async function getMessages(): Promise<any>
   await loadTranslations();
 
   // Load the translations into the storedTranslations variable again.
-  storedTranslations = sessionStorage.getItem('translatedStrings');
+  storedTranslations = sessionStorage.getItem(translationsStorageKey);
 
   if (!storedTranslations)
   {
