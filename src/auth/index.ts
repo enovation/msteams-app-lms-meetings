@@ -1,3 +1,3 @@
-import { msalApp } from './msalApp';
+import { msalApp, msalAppReady } from './msalApp';
 
-export { msalApp };
+export { msalApp, msalAppReady };

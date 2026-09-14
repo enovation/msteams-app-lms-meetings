@@ -1,19 +1,24 @@
 import { OnlineMeetingInput, OnlineMeeting } from './models';
-import { msalApp } from '../auth/msalApp';
+import { msalApp, msalAppReady } from '../auth/msalApp';
 import axios from 'axios';
 import moment from 'moment';
 
 export function createMeetingService() {
   return {
     async createMeeting(meeting: OnlineMeetingInput) {
+      await msalAppReady;
+      const account = msalApp.getActiveAccount() ?? msalApp.getAllAccounts()[0];
+
       let token;
       try {
         token = await msalApp.acquireTokenSilent({
-          scopes: ['OnlineMeetings.ReadWrite']
+          scopes: ['OnlineMeetings.ReadWrite'],
+          account
         });
       } catch (ex) {
         token = await msalApp.acquireTokenPopup({
-          scopes: ['OnlineMeetings.ReadWrite']
+          scopes: ['OnlineMeetings.ReadWrite'],
+          account
         });
       }
 
