@@ -91,12 +91,14 @@ function DateTimePicker(props: DateTimePickerProps) {
       shortMonths: localeData.monthsShort(),
       days: localeData.weekdays(),
       shortDays: localeData.weekdaysMin(),
-      goToToday: 'Go to today',
-      prevMonthAriaLabel: 'Go to previous month',
-      nextMonthAriaLabel: 'Go to next month',
-      prevYearAriaLabel: 'Go to previous year',
-      nextYearAriaLabel: 'Go to next year',
-      closeButtonAriaLabel: 'Close date picker'
+      goToToday: translate('meetingPage.datePicker.goToToday'),
+      prevMonthAriaLabel: translate('meetingPage.datePicker.prevMonthAriaLabel'),
+      nextMonthAriaLabel: translate('meetingPage.datePicker.nextMonthAriaLabel'),
+      prevYearAriaLabel: translate('meetingPage.datePicker.prevYearAriaLabel'),
+      nextYearAriaLabel: translate('meetingPage.datePicker.nextYearAriaLabel'),
+      closeButtonAriaLabel: translate(
+        'meetingPage.datePicker.closeButtonAriaLabel'
+      )
     };
   }
 

@@ -1,5 +1,7 @@
 import { createIntl, createIntlCache } from 'react-intl';
+import moment from 'moment';
 import _ from 'lodash';
+import { calendarLocales } from './calendarLocales';
 
 const supportedLocales = [
   'ar',
@@ -64,6 +66,19 @@ export function getUserLocale() {
 
 const userLocale = getUserLocale();
 const translationsStorageKey = `translatedStrings_${userLocale}`;
+
+// Vite bundles moment's own locale files (moment/locale/*.js,
+// moment/min/locales.min.js) in a way that never registers their data onto
+// the running moment instance, so moment.locale() silently stays on 'en' no
+// matter what is requested. Registering the locale ourselves from data
+// extracted ahead of time (see calendarLocales.ts) works around that.
+export function applyMomentLocale() {
+  const calendarLocale = calendarLocales[userLocale] ?? calendarLocales['en-us'];
+  moment.defineLocale(userLocale, calendarLocale);
+  moment.locale(userLocale);
+}
+
+applyMomentLocale();
 
 async function loadTranslations() {
   let translations;
