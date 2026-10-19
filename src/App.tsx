@@ -12,7 +12,7 @@ import { createMeetingMiddleware } from './meeting-creator/middleware';
 import CopyMeetingPage from './CopyMeetingPage';
 import CreateLandingPage from './CreateLandingPage';
 import ErrorPage from './ErrorPage';
-import { initializeIcons } from 'office-ui-fabric-react';
+import { initializeIcons, FocusRects } from 'office-ui-fabric-react';
 
 initializeIcons();
 
@@ -32,6 +32,7 @@ const store = createStore(
 function App() {
   return (
     <Provider store={store}>
+      <FocusRects />
       <ConnectedRouter history={hist}>
         <Switch>
           <Route exact path="/signin" component={SigninPage} />
